@@ -1,0 +1,14 @@
+{
+  "name": "angular-holiday-planner",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^10.0.14",
+    "@angular/core": "^10.0.14",
+    "@types/lodash-es": "^4.17.3"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0",
+    "dayjs": "^1.8.36",
+    "lodash-es": "^4.17.15"
+  }
+}

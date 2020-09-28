@@ -1,0 +1,61 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #FAFBFB;
+}
+
+
+
+.main-day {
+    background-color: #F8F7F9;
+}
+
+.weekend {
+    background-color: #E4E3E4;
+}
+
+.orange {
+    background-color: #FF6701;
+    color: white !important;
+}
+
+.orange.weekend {
+    background-color: #F4A682;
+}
+
+
+.green {
+    background-color: #349967;
+    color: white !important;
+}
+
+.green.weekend {
+    background-color: #7ccea5;
+}
+
+.purple {
+    background-color: #6666CC;
+    color: white !important;
+}
+
+.purple.weekend {
+    background-color: #7575d0;
+}
+
+.cell.today {
+    background-color: #72bdff;
+    color: white !important;
+}
+.today.weekend {
+    background-color: #a1d3ff;
+}
+.header-day.today {
+    position: relative;
+}
+.header-day.today::after {
+    content: '';
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid #87b8e9;
+}

@@ -1,0 +1,23 @@
+<div class="year">
+    <table *ngFor="let month of months" class="month" cellspacing="0" cellpadding="0">
+        <tr class="month-title">
+            <th [attr.colspan]="numCols">{{ month.startOf.format('MMMM') }}</th>
+        </tr>
+        <tr class="month-header">
+            <th *ngFor="let dayName of weekDayNames" class="cell-header">{{ dayName }}</th>
+        </tr>
+        <tr *ngFor="let row of month.weeks; let rowIndex = index">
+            <td *ngIf="rowIndex === 0 && month.firstWeekOffset" class="month-offset"
+                [attr.colspan]="month.firstWeekOffset">
+            </td>
+            <td *ngFor="let item of row; let colIndex = index" class="day cell" 
+                [ngClass]="_classes[item.key]" 
+                [class.weekend]="item.weekend" 
+                (click)="_cellClicked(item, $event)">
+                <div class="day-content">
+                    {{ item.value }}
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="header">
+        <ng-container *ngTemplateOutlet="titleTemplate ? titleTemplate.template : defaultTitle"></ng-container>
+    </div>
+    <div class="header">
+        <div class="side-header side" [style.width]="sideContainerWidth">
+
+        </div>
+        <div class="main-header" #scrollHeader (click)="onHeaderClick($event)">
+            <div *ngFor="let item of days; let i = index; trackBy: trackByKey" class="header-day"
+                [ngClass]="{'today': item.today, 'start-of-month': item.value === 1}" [attr.data-day-id]="i">
+                {{item.title}}
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="side-body side" [style.width]="sideContainerWidth">
+            <div *ngFor="let row of rows" class="row row-side card">
+                <ng-container *ngTemplateOutlet="rowTemplate ? rowTemplate.template : defaultRow; context: { $implicit: row }"></ng-container>
+            </div>
+        </div>
+        <div class="main-body" #scrollBody (click)="onBodyClick($event)">
+            <div *ngFor="let row of rows; let row_i = index; trackBy: trackById" class="row row-main" [attr.data-row-id]="row_i">
+
+                <div *ngFor="let item of days; let i = index; trackBy: trackByKey" class="main-day" 
+                    [class.weekend]="item.weekend"
+                    [ngClass]="_classes[row.id][item.key]" 
+                    [attr.data-day-id]="i">
+                    <div class="day-content">
+                        {{ item.value }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #defaultTitle>
+    <div class="range" *ngIf="from != null && to != null" [style.marginLeft]="sideContainerWidth">
+        {{from | amDateFormat:'MMM YYYY'}} ― {{to | amDateFormat:'MMM YYYY'}}
+    </div>
+</ng-template>
+
+<ng-template #defaultRow let-row>
+    <img class="avatar" [src]="row.img">
+    <div class="card-content">
+        <div class="title">
+            {{row.title}}
+        </div>
+        <div class="subtitle">
+            {{row.subtitle}}
+        </div>
+    </div>
+</ng-template>
