@@ -1,0 +1,16 @@
+<ahp-resource-view [rows]="rows" (dayClick)="onDayClick($event)" (headerClick)="onHeaderClick($event)"
+    (rowClick)="onRowClick($event)" #resourceView>
+    <!-- Custom row template -->
+    <!-- 
+    <ng-container *resourceViewRow="let row">
+        <div >Row:{{row.title|json}}</div>
+    </ng-container>  
+    -->
+
+    <!-- Custom title template -->
+    <!-- 
+    <ng-container *resourceViewTitle>
+        <div >From:{{resourceView.from.format('MMM D. YYYY')}}, To:{{resourceView.to.format('MMM D. YYYY')}}</div>
+    </ng-container> 
+    -->
+</ahp-resource-view>

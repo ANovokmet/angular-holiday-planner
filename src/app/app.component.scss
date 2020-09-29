@@ -1,0 +1,19 @@
+.mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.container {
+    padding: 1rem 2rem;
+}
+
+.toolbar-title {
+    margin-right: 1rem;
+    text-decoration: none;
+    color: #fff;
+}
+
+a[mat-button], a[mat-button]:hover {
+    color: inherit !important;
+}

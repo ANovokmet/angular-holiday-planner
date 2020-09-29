@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as dayjs from 'dayjs';
 import * as weekday from 'dayjs/plugin/weekday';
 import * as isoWeek from 'dayjs/plugin/isoWeek';
@@ -40,6 +40,7 @@ export class CalendarViewComponent implements OnInit {
         this.customDays[this.getKey(today)] = 'today';
 
         this.weekDayNames = this.getWeekDayNames();
+        this.createMonths();
     }
 
     @Input()
@@ -53,18 +54,30 @@ export class CalendarViewComponent implements OnInit {
     }
 
     @Input()
-    from: dayjs.Dayjs = dayjs().startOf('year').add(6, 'month');
-
-    @Input()
-    to: dayjs.Dayjs = dayjs().startOf('year').add(12, 'month');
-
-    ngOnInit(): void {
+    set from(value: dayjs.Dayjs) {
+        this._from = value;
         this.createMonths();
-        console.log(this.months);
+    }
+    get from(): dayjs.Dayjs {
+        return this._from;
     }
 
-    getClass(day: Day) {
+    @Input()
+    set to(value: dayjs.Dayjs) {
+        this._to = value;
+        this.createMonths();
+    }
+    get to(): dayjs.Dayjs {
+        return this._to;
+    }
 
+    @Output()
+    dayClick = new EventEmitter<any>();
+
+    private _from: dayjs.Dayjs = dayjs().startOf('year').add(6, 'month');
+    private _to: dayjs.Dayjs = dayjs().endOf('year');
+
+    ngOnInit(): void {
     }
 
     private getWeekDayNames(): string[] {
@@ -93,7 +106,6 @@ export class CalendarViewComponent implements OnInit {
     }
 
     _dateClass(date: dayjs.Dayjs) {
-
         const classes: string[] = [];
         const d = date.day();
         if (d === 6 || d === 0) {
@@ -110,7 +122,7 @@ export class CalendarViewComponent implements OnInit {
     }
 
     _cellClicked(item: Day, event: MouseEvent) {
-        console.log(item.date.format());
+        this.dayClick.emit({ event, date: item.date });
     }
 
     private _createWeekCells(startOfMonth: dayjs.Dayjs, _firstWeekOffset: number) {

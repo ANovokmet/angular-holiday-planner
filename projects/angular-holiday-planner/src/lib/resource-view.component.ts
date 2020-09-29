@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter,
-    HostListener, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+    HostListener, Input, NgZone, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import * as dayjs from 'dayjs';
 import * as minMax from 'dayjs/plugin/minMax';
 import { debounce, throttle } from 'lodash-es';
@@ -48,7 +48,8 @@ export interface HeaderClickEvent {
 @Component({
     selector: 'ahp-resource-view',
     templateUrl: './resource-view.component.html',
-    styleUrls: ['./resource-view.component.scss']
+    styleUrls: ['./resource-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResourceViewComponent implements OnInit, AfterViewInit {
 
@@ -166,6 +167,10 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
         }
     }
 
+    ngAfterViewChecked() {
+        console.log('view checked')
+    }
+
     getKey(value: dayjs.Dayjs): string {
         return value.format('DDMMYYYY');
     }
@@ -198,9 +203,7 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
         this.scrollHeader.nativeElement.scrollLeft = scrollLeft;
 
         this.checkScrollableThresholdHit(scrollLeft, clientWidth);
-        this.zone.run(() => {
-            this.updateRange(scrollLeft, scrollLeft + clientWidth);
-        });
+        this.updateRange(scrollLeft, scrollLeft + clientWidth);
     }
 
     _checkScrollableThresholdHit(scrollLeft, clientWidth): void {
@@ -220,6 +223,7 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
 
         this._scrollableLeft = scrollableLeft;
         this._scrollableRight = scrollableRight;
+
         this._scrollableFrom = this.minDate && !this.infiniteScroll ?
             dayjs.max(this.positionToDate(this._scrollableLeft), this.minDate) : this.positionToDate(this._scrollableLeft);
         this._scrollableTo = this.maxDate && !this.infiniteScroll ?
@@ -230,9 +234,8 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
         this.scrollBody.nativeElement.scrollLeft += scrollableLeftChange;
         this.scrollHeader.nativeElement.scrollLeft = this.scrollBody.nativeElement.scrollLeft;
 
-        this.zone.run(() => {
-            this.createDays();
-        });
+        this.createDays();
+        this.cdr.detectChanges();
 
         this._referenceScrollLeft = this.dateToPosition(this._referenceDate);
     }
@@ -246,6 +249,8 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
 
         this.from = from;
         this.to = to;
+
+        this.cdr.detectChanges();
     }
 
     _dateClass(date: dayjs.Dayjs): string[] {

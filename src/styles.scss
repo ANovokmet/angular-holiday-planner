@@ -1,5 +1,13 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+html,
 body {
-    font-family: 'Roboto', sans-serif;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     background-color: #FAFBFB;
 }
 
@@ -45,12 +53,15 @@ body {
     background-color: #72bdff;
     color: white !important;
 }
+
 .today.weekend {
     background-color: #a1d3ff;
 }
+
 .header-day.today {
     position: relative;
 }
+
 .header-day.today::after {
     content: '';
     height: 30px;
