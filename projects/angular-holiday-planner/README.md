@@ -1,24 +1,103 @@
 # AngularHolidayPlanner
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.14.
+This library consists of two calendar components. *Resource view* which displays a scrollable overview of several people's calendars through months, and a *Calendar view* which displays a single calendar containing several months, and shows a single person's calendar.
 
-## Code scaffolding
+You will understand once you see the [Demo](https://anovokmet.github.io/angular-holiday-planner).
 
-Run `ng generate component component-name --project angular-holiday-planner` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project angular-holiday-planner`.
-> Note: Don't forget to add `--project angular-holiday-planner` or else it will be added to the default project in your `angular.json` file. 
+# Installation
 
-## Build
+```
+npm install angular-holiday-planner --save
+```
 
-Run `ng build angular-holiday-planner` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Usage
 
-## Publishing
+```javascript
+import { AngularHolidayPlannerModule } from 'projects/angular-holiday-planner';
 
-After building your library with `ng build angular-holiday-planner`, go to the dist folder `cd dist/angular-holiday-planner` and run `npm publish`.
+@NgModule({
+    ...
+    imports: [
+        ...
+        AngularHolidayPlannerModule
+    ],
+    ...
+})
+export class AppModule { }
+```
 
-## Running unit tests
+# Components
 
-Run `ng test angular-holiday-planner` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Resource view
 
-## Further help
+```html
+<ahp-resource-view [rows]="rows"></ahp-resource-view>
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Row
+
+Options for a single row in the view.
+
+- id - Unique ID of row.
+- title {`string`} - Title used by the default row template.
+- subtitle {`string`} - Subtitle used by the default row template.
+- img {`string`} - URL to an image. Used by the default row template.
+- days {`Day[]`} - Days to mark on the resource view.
+
+### Day
+
+Options for a single day (of resource) in the view.
+
+- `date` (DayJs) - Date of rendered day.
+- `class` (string|string[]) - Classes to apply to the date cell.
+
+### Inputs
+
+- `rows` (Resource[]) - List of resource objects that will render in the component.
+- `startDate` {`dayjs.Dayjs`} - Date the view will center on initially. By default this is the current date.
+- `sideContainerWidth` {`string`} - Width of the side container, eg. '200px'
+- `maxDate` {`Dayjs`} - Maximum date the view will be scrollable to. No more days will load upon reaching this date. Infinite scroll must be true for this property to work.
+- `minDate` {`Dayjs`} - Minimum date the view will be scrollable to. No more days will load upon reaching this date. Infinite scroll must be true for this property to work.
+- `infiniteScroll` {`bool`} - if true more days will load upon scrolling to the end of the container.
+- `customDays` - Object containing custom days on the time line. Can specify custom classes to apply on a specific day, eg. holiday. Keys of object should be dates in 'DDMMYYYY' format, and values should be `Day` objects containing CSS classes to apply.
+
+### Outputs
+
+- `rowClick` - Emits when a resource is clicked.
+- `dayClick` - Emits when a specific resource date is clicked.
+- `headerClick` - Emits when date header is clicked (name of day, eg. "M")
+
+### Methods
+
+- `centerOn(date, behavior = 'smooth')` - Scrolls the view to a specific day.
+
+### Directives
+
+- `*resourceViewRow` - Custom template to show as a row header (resource info card).
+- `*resourceViewTitle` - Custom template to show instead of the current time range displayed in the title.
+
+## Calendar view
+
+```html
+<ahp-calendar-view [days]="days"></ahp-calendar-view>
+```
+
+### Inputs
+
+- `days` {`Day[]`} - List of day objects to display on the calendar.
+- `from` {`DayJs`} - Date the calendar starts on.
+- `to` {`DayJs`} - Date the calendar ends on.
+
+### Outputs
+
+- `dayClick` - Emits when a specific resource date is clicked.
+
+## Development
+
+To start a development build
+
+```
+    npm run start
+```
+
+The app should be running at `http://localhost:4200`.
