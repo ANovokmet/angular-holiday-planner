@@ -1,14 +1,32 @@
 {
   "name": "angular-holiday-planner",
+  "description": "A calendar for Angular 2+ focused on displaying long intervals, with an infinite scrollable view.",
   "version": "0.0.1",
+  "author": "Ante Novokmet <ante.je.zakon@gmail.com>",
   "peerDependencies": {
     "@angular/common": "^10.0.14",
     "@angular/core": "^10.0.14",
-    "@types/lodash-es": "^4.17.3"
+    "@types/lodash-es": "^4.17.3",
+    "dayjs": "^1.8.36"
   },
   "dependencies": {
     "tslib": "^2.0.0",
-    "dayjs": "^1.8.36",
     "lodash-es": "^4.17.15"
-  }
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/ANovokmet/angular-holiday-planner.git"
+  },
+  "bugs": {
+      "url": "https://github.com/ANovokmet/angular-holiday-planner/issues"
+  },
+  "keywords": [
+    "angular",
+    "calendar-view",
+    "angular-calendar",
+    "angular-planner",
+    "angular-holiday-planner",
+    "holiday-planner",
+    "holiday-view"
+  ]
 }

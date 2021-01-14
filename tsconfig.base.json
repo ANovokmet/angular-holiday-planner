@@ -20,6 +20,7 @@
         "dist/angular-holiday-planner/angular-holiday-planner",
         "dist/angular-holiday-planner"
       ]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   }
 }

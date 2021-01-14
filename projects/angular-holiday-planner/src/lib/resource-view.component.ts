@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter,
     HostListener, Input, NgZone, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import * as dayjs from 'dayjs';
-import * as minMax from 'dayjs/plugin/minMax';
+import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
 import { debounce, throttle } from 'lodash-es';
 import { ResourceViewRowDirective } from './resource-view-row.directive';
 import { ResourceViewTitleDirective } from './resource-view-title.directive';

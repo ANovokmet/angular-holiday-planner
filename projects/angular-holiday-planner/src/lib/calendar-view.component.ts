@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as dayjs from 'dayjs';
-import * as weekday from 'dayjs/plugin/weekday';
-import * as isoWeek from 'dayjs/plugin/isoWeek';
+import dayjs from 'dayjs';
+import weekday from 'dayjs/plugin/weekday';
+import isoWeek from 'dayjs/plugin/isoWeek';
 
 interface Month {
     startOf: dayjs.Dayjs;
