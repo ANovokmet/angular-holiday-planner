@@ -13,7 +13,7 @@ export class AppResourcesComponent implements OnInit {
 
     constructor() { 
 
-        const startOfYear = dayjs().startOf('year').add(6, 'month');
+        const startOfYear = dayjs().startOf('year');
         function rnd() {
             return startOfYear.add(Math.floor(Math.random() * 365), 'day');
         }
