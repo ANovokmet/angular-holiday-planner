@@ -54,12 +54,16 @@ Options for a single day (of resource) in the view.
 ### Inputs
 
 - `rows` (Resource[]) - List of resource objects that will render in the component.
-- `startDate` {`dayjs.Dayjs`} - Date the view will center on initially. By default this is the current date.
+- `startDate` {`Dayjs`} - Date the view will center on initially. By default this is the current date.
 - `sideContainerWidth` {`string`} - Width of the side container, eg. '200px'
 - `maxDate` {`Dayjs`} - Maximum date the view will be scrollable to. No more days will load upon reaching this date. Infinite scroll must be true for this property to work.
 - `minDate` {`Dayjs`} - Minimum date the view will be scrollable to. No more days will load upon reaching this date. Infinite scroll must be true for this property to work.
 - `infiniteScroll` {`bool`} - if true more days will load upon scrolling to the end of the container.
 - `customDays` - Object containing custom days on the time line. Can specify custom classes to apply on a specific day, eg. holiday. Keys of object should be dates in 'DDMMYYYY' format, and values should be `Day` objects containing CSS classes to apply.
+- `getClassFn` {`(Dayjs) => string | string[]`} - Function that gets classes for a day cell.
+- `getHeaderClassFn` {`(Dayjs) => any`} - Function that gets the classes that get applied to a day header cell.
+- `getDayValueFn` {`(Dayjs) => any`} - Function that sets value of a day cell.
+- `getDayHeaderFn` {`(Dayjs) => any`} - Function that sets the labels in a day header cell.
 
 ### Outputs
 

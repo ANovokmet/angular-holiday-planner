@@ -16,9 +16,8 @@ interface Day {
     date: dayjs.Dayjs;
     key: string;
     class: string | string[];
-    today: boolean;
+    headerClass: string | string[];
     left: number;
-    weekend: boolean;
 }
 
 export interface Resource {
@@ -66,8 +65,6 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
         this._scrollableTo = this.positionToDate(this._scrollableRight);
         this._scrollableLeftThreshold = this._scrollableLeft + SCROLLABLE_THRESHOLD_DELTA;
         this._scrollableRightThreshold = this._scrollableRight - SCROLLABLE_THRESHOLD_DELTA;
-
-        this.createDays();
     }
 
     @Input()
@@ -108,6 +105,27 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
     @Input()
     customDays = {};
 
+    @Input()
+    getClassFn: (date: dayjs.Dayjs) => string | string[] = (date) => {
+        const d = date.day();
+        if (d === 6 || d === 0) {
+            return 'weekend';
+        }
+    };
+
+    @Input()
+    getHeaderClassFn: (date: dayjs.Dayjs) => any = (date) => {
+        return {'today': date.isSame(this._today, 'day'), 'start-of-month': date.date() === 1};
+    }
+
+    @Input()
+    getDayValueFn: (date: dayjs.Dayjs) => any = (date) => {
+        return date.date();
+    }
+
+    @Input()
+    getDayHeaderFn: (date: dayjs.Dayjs) => any = (date) => date.format('dd')[0];
+
     @ViewChild('scrollHeader', { static: true }) scrollHeader: ElementRef<HTMLElement>;
     @ViewChild('scrollBody', { static: true }) scrollBody: ElementRef<HTMLElement>;
 
@@ -115,7 +133,6 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
     days: Day[] = [];
     to: dayjs.Dayjs;
     from: dayjs.Dayjs;
-    today: Day;
 
     private _rows: Resource[] = [];
     private _today: dayjs.Dayjs = dayjs();
@@ -149,18 +166,15 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
         while (current < this._scrollableTo) {
             const key = this.getKey(current);
             const day = {
-                title: current.format('dd')[0],
-                value: current.date(),
+                title: this.getDayHeaderFn(current),
+                value: this.getDayValueFn(current),
                 key,
                 date: current,
+                headerClass: this.getHeaderClassFn(current),
                 class: this._dateClass(current),
-                today: current.isSame(this._today, 'date'),
-                left,
-                weekend: current.day() === 6 || current.day() === 0
+                left
             };
-            if (day.today) {
-                this.today = day;
-            }
+            
             this.days.push(day);
             left += DAY_WIDTH;
             current = current.add(1, 'day');
@@ -181,6 +195,8 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+        this.createDays();
+
         const { scrollLeft, clientWidth } = this.scrollBody.nativeElement;
         this._updateRange(scrollLeft, scrollLeft + clientWidth);
         this._referenceScrollLeft = this.dateToPosition(this._referenceDate);
@@ -253,20 +269,33 @@ export class ResourceViewComponent implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
     }
 
-    _dateClass(date: dayjs.Dayjs): string[] {
+    _getDateClasses(row: Resource, day: Day): any {
+        return (this._classes[row.id][day.key] || '') + (day.class ? ' ' + day.class : '');
+    }
+
+    _getHeaderClasses(day: Day): any {
+        console.log(1);
+    }
+
+    _dateClass(date: dayjs.Dayjs): string {
         const classes: string[] = [];
-        const d = date.day();
-        if (d === 6 || d === 0) {
-            classes.push('weekend');
-        }
-
         const k = this.getKey(date);
-        const c = this.customDays[k];
-        if (c) {
-            classes.push(c.class);
+        const customDay = this.customDays[k];
+        if (customDay) {
+            classes.push(customDay.class);
         }
 
-        return classes;
+        if(this.getClassFn) {
+            const c = this.getClassFn(date);
+            if(c) {
+                if(Array.isArray(c)) {
+                    classes.push(...c);
+                } else {
+                    classes.push(c);
+                }
+            }
+        }
+        return classes.join(' ');
     }
 
     @HostListener('window:resize', ['$event'])

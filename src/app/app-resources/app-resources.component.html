@@ -1,5 +1,5 @@
 <ahp-resource-view [rows]="rows" (dayClick)="onDayClick($event)" (headerClick)="onHeaderClick($event)"
-    (rowClick)="onRowClick($event)" #resourceView>
+    (rowClick)="onRowClick($event)" [getClassFn]="customDayClassFn" [getDayHeaderFn]="customDayHeaderFn" #resourceView>
     <!-- Custom row template -->
     <!-- 
     <ng-container *resourceViewRow="let row">

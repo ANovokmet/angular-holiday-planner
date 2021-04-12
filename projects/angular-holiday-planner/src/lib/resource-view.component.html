@@ -8,7 +8,7 @@
         </div>
         <div class="main-header" #scrollHeader (click)="onHeaderClick($event)">
             <div *ngFor="let item of days; let i = index; trackBy: trackByKey" class="header-day"
-                [ngClass]="{'today': item.today, 'start-of-month': item.value === 1}" [attr.data-day-id]="i">
+                [ngClass]="item.headerClass" [attr.data-day-id]="i">
                 {{item.title}}
             </div>
         </div>
@@ -23,8 +23,7 @@
             <div *ngFor="let row of rows; let row_i = index; trackBy: trackById" class="row row-main" [attr.data-row-id]="row_i">
 
                 <div *ngFor="let item of days; let i = index; trackBy: trackByKey" class="main-day" 
-                    [class.weekend]="item.weekend"
-                    [ngClass]="_classes[row.id][item.key]" 
+                    [ngClass]="_getDateClasses(row, item)"
                     [attr.data-day-id]="i">
                     <div class="day-content">
                         {{ item.value }}

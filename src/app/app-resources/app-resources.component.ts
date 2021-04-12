@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 @Component({
     selector: 'app-app-resources',
@@ -10,6 +10,21 @@ export class AppResourcesComponent implements OnInit {
 
     rows: any[];
     selectedRow: any;
+
+    customDayClassFn = (date: Dayjs) => {
+        const d = date.day();
+        if (d === 6 || d === 0) {
+            return 'weekend';
+        }
+
+        if (d === 1) {
+            return 'monday';
+        }
+    }
+
+    customDayHeaderFn: (date: dayjs.Dayjs) => any = (date) => {
+        return date.format('dd')[0];
+    }
 
     constructor() { 
 
