@@ -1,7 +1,7 @@
 {
   "name": "angular-holiday-planner",
   "description": "A calendar for Angular 2+ focused on displaying long intervals, with an infinite scrollable view.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Ante Novokmet <ante.je.zakon@gmail.com>",
   "peerDependencies": {
     "@angular/common": "^10.0.14",
